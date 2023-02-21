@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ken&#39;s Blog</title>
+    <link>/</link>
+    <description>Recent content on Ken&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 19 Feb 2023 19:35:41 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Sun, 19 Feb 2023 19:35:41 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>Welcome to my blog! My name is Ken, and I am a newbie blockchain developer.
+On this blog, I will be sharing my thoughts and insights on the latest trends and developments in blockchain technology. I will be covering topics such as new blockchain protocols, layer-2, non-fungible tokens (NFTs), as well as providing tutorials and code snippets for fellow developers.
+If you&amp;rsquo;re interested in blockchain technology and want to stay up-to-date on the latest trends and developments, make sure to follow my blog and connect with me on social media or via email.</description>
+    </item>
+    
+    <item>
+      <title>公鑰、私鑰、地址傻傻分不清！？</title>
+      <link>/post/ethereum-address-system/</link>
+      <pubDate>Sun, 19 Feb 2023 19:35:41 +0000</pubDate>
+      
+      <guid>/post/ethereum-address-system/</guid>
+      <description>在區塊鏈的世界中，我們時常會用到私鑰簽署交易，但我們真的理解私鑰的意義嗎？而公鑰又是甚麼？和地址又有甚麼區別呢？然而每條區塊鏈所用的 加密方式都不盡相同，本文將會以 Ethereum 為例深入探討這些看似簡單卻又複雜的問題。
+Photo by Jason D on Unsplash 私鑰 Private Key 首先，我們先來探討甚麼是私鑰？ It is assumed that the sender has a valid private key pr, which is a randomly selected positive integer (represented as a byte array of length 32 in big-endian form) in the range [1, secp256k1n − 1].
+上面是引用 Ethereum 黃皮書對私鑰的介紹，其中 \(\ secp256k1n = 2^{256}\) 。私鑰其實就是一串隨機數，具體而言，以太坊的私鑰是一串隨機正整數，而這個值的區間位於 \(1\) ~ \(2^{256}\) 之間，也就是說，它是一串隨機生成的 256 bits 序列。這個 range 是非常巨大的，要生成兩個一樣的私鑰是一件幾乎不可能會發生的事。（如果你無法想像 \(2^{256}\) 實際到底有多大，可以觀看以下影片） 2²⁵⁶ 實際到底有多大？ 而私鑰為甚麼會如此重要呢？ 在真實的世界中，「擁有」的定義是領有、具有，得到或者保持著某種東西，你可以透過出示地契證明你擁有某一棟房子。但在區塊鏈的世界中，擁有某個東西只不過是在帳本上將你的資產做加法，並且用數學的方式證明它的存在，當全世界的人都認可這個紀錄，那麼你就擁有它，儘管你其實並沒有實際擁有任何東西。簡單來講，當你知道你的私鑰的時候，你就擁有你所有的貨幣資產，包括 NFT 和 Token，因為多數人都能夠證明這條紀錄是千真萬確的。</description>
+    </item>
+    
+  </channel>
+</rss>
