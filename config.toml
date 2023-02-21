@@ -10,7 +10,7 @@ ignoreErrors = ["error-remote-getjson"]
 
 # ------------------------------
 theme = "paper"
-title = "Ken's Bl"
+title = "Ken's B"
 
 [params]
   color = 'wheat'

@@ -23,4 +23,4 @@ fleek site:init
 fleek site:deploy
 ```
 # CI/CD
-This repo integrate with Fleek, so just push the repo and it will automatically deploy to IPFS, and then update the IPNS.
+This repo integrate with Fleek, so just type `hugo` and push the repo, it will automatically deploy to IPFS and update the IPNS.
