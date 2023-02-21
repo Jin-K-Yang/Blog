@@ -9,6 +9,7 @@ tags: [
     "address",
 ]
 math: true
+coverImage: "https://miro.medium.com/max/875/0*n4rSGgp77ube9Y6Y"
 ---
 {{< math.inline >}}
 {{ if or .Page.Params.math .Site.Params.math }}
