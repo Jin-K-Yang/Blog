@@ -23,4 +23,4 @@ fleek site:init
 fleek site:deploy
 ```
 # CI/CD
-This repo integrate with github action, so just run `hugo` and then push your repo. It will automatically deploy `/pulbic` to IPFS and update the IPNS.
+This repo integrate with Fleek, so just push the repo and it will automatically deploy to IPFS, and then update the IPNS.
