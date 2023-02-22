@@ -1706,6 +1706,7 @@ article blockquote {
   border-radius: 1rem;
   margin-top: 0.5rem;
   margin-bottom: 4rem;
+  box-shadow: 1px 1px 5px #121212
 }
 
 @media (min-width: 1024px) {
