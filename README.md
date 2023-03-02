@@ -1,5 +1,9 @@
 # Blog
 A personal blog build with Hugo and integrate with Fleek.
+# Add post
+```
+hugo new posts/<post-name>.md
+```
 # Test
 ```
 hugo server -b http://localhost:1313
