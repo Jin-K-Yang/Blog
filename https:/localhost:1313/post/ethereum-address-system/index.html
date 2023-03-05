@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #f1efe1"
+  lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>公鑰、私鑰、地址傻傻分不清！？ - Ken&#39;s Blog</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="在區塊鏈的世界中，我們時常會用到私鑰簽署交易，但我們真的理解私鑰的意義嗎？而公鑰又是甚麼？和地址又有甚麼區別呢？然而每條區塊鏈所用的 加密方式都不盡相同，本文將會以 Ethereum 為例深入探討這些看似簡單卻又複雜的問題。
+Photo by Jason D on Unsplash 私鑰 Private Key 首先，我們先來探討甚麼是私鑰？ It is assumed that the sender has a valid private key pr, which is a randomly selected positive integer (represented as a byte array of length 32 in big-endian form) in the range [1, secp256k1n − 1].
+上面是引用 Ethereum 黃皮書對私鑰的介紹，其中 \(\ secp256k1n = 2^{256}\) 。私鑰其實就是一串隨機數，具體而言，以太坊的私鑰是一串隨機正整數，而這個值的區間位於 \(1\) ~ \(2^{256}\) 之間，也就是說，它是一串隨機生成的 256 bits 序列。這個 range 是非常巨大的，要生成兩個一樣的私鑰是一件幾乎不可能會發生的事。（如果你無法想像 \(2^{256}\) 實際到底有多大，可以觀看以下影片） 2²⁵⁶ 實際到底有多大？ 而私鑰為甚麼會如此重要呢？ 在真實的世界中，「擁有」的定義是領有、具有，得到或者保持著某種東西，你可以透過出示地契證明你擁有某一棟房子。但在區塊鏈的世界中，擁有某個東西只不過是在帳本上將你的資產做加法，並且用數學的方式證明它的存在，當全世界的人都認可這個紀錄，那麼你就擁有它，儘管你其實並沒有實際擁有任何東西。簡單來講，當你知道你的私鑰的時候，你就擁有你所有的貨幣資產，包括 NFT 和 Token，因為多數人都能夠證明這條紀錄是千真萬確的。" />
+  <meta
+    name="author"
+    content="Ken"
+  />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="//localhost:1313/main.min.css" />
+
+  
+  <script
+    defer
+    src="//localhost:1313/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="//localhost:1313/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://dl.openseauserdata.com/cache/originImage/files/879e5615088fc034a8152466afb53a34.png" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="//localhost:1313/twitter.svg" />
+  
+  <link rel="preload" as="image" href="//localhost:1313/github.svg" />
+  
+  <link rel="preload" as="image" href="//localhost:1313/instagram.svg" />
+  
+
+  
+  <link rel="icon" href="//localhost:1313/favicon.ico" />
+  <link rel="apple-touch-icon" href="//localhost:1313/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.110.0">
+
+  
+  
+
+  
+  
+</head>
+
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="//localhost:1313/">Ken&#39;s Blog</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#f1efe1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal" href="/about/">About</a>
+      
+    </nav>
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./twitter.svg)"
+        href="https://twitter.com/YoungJK0809"
+        target="_blank" rel="me" ></a>
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/Jin-K-Yang"
+        target="_blank" rel="me" ></a>
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./instagram.svg)"
+        href="https://instagram.com/jinkai0809"
+        target="_blank" rel="me" ></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+  <header class="mb-20">
+    <h1 class="!my-0 pb-2.5">公鑰、私鑰、地址傻傻分不清！？</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      <time>Feb 19, 2023</time>
+      
+      
+      <span class="mx-1">&middot;</span>
+      <span>Ken</span>
+      
+    </div>
+    
+  </header>
+
+  <section>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+<p>在區塊鏈的世界中，我們時常會用到私鑰簽署交易，但我們真的理解私鑰的意義嗎？而公鑰又是甚麼？和地址又有甚麼區別呢？然而每條區塊鏈所用的 加密方式都不盡相同，本文將會以 Ethereum 為例深入探討這些看似簡單卻又複雜的問題。</p>
+<p><img src="https://miro.medium.com/max/875/0*n4rSGgp77ube9Y6Y" alt=""></p>
+<center>Photo by  <a href="https://unsplash.com/@jasondeblooisphotography?utm_source=medium&utm_medium=referral">Jason D</a> on <a href="https://unsplash.com/?utm_source=medium&utm_medium=referral">Unsplash</a></center>
+<h2 id="私鑰-private-key">私鑰 Private Key</h2>
+<h3 id="首先我們先來探討甚麼是私鑰">首先，我們先來探討甚麼是私鑰？</h3>
+<blockquote>
+<p>It is assumed that the sender has a valid private key pr, which is a randomly selected positive integer (represented as a byte array of length 32 in big-endian form) in the range [1, secp256k1n − 1].</p>
+</blockquote>
+
+上面是引用  <a href="http://gavwood.com/paper.pdf">Ethereum 黃皮書</a>對私鑰的介紹，其中 \(\ secp256k1n = 2^{256}\) 。私鑰其實就是一串隨機數，具體而言，以太坊的私鑰是一串隨機正整數，而這個值的區間位於 \(1\) ~ \(2^{256}\) 之間，也就是說，它是一串隨機生成的 256 bits 序列。這個 range 是非常巨大的，要生成兩個一樣的私鑰是一件幾乎不可能會發生的事。（如果你無法想像 \(2^{256}\) 實際到底有多大，可以觀看以下影片）
+
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube-nocookie.com/embed/S9JGmA5_unY" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video"></iframe>
+</div>
+
+<center>2²⁵⁶ 實際到底有多大？</center>
+<h3 id="而私鑰為甚麼會如此重要呢">而私鑰為甚麼會如此重要呢？</h3>
+<p>在真實的世界中，「<strong>擁有</strong>」的定義是領有、具有，得到或者保持著某種東西，你可以透過出示地契證明你擁有某一棟房子。但在區塊鏈的世界中，<strong>擁有</strong>某個東西只不過是在帳本上將你的資產做加法，並且用數學的方式<strong>證明</strong>它的存在，當全世界的人都<strong>認可</strong>這個紀錄，那麼你就<strong>擁有</strong>它，儘管你其實並沒有實際擁有任何東西。簡單來講，當你知道你的私鑰的時候，你就<strong>擁有</strong>你所有的貨幣資產，包括 NFT 和 Token，因為多數人都能夠<strong>證明</strong>這條紀錄是千真萬確的。</p>
+<p>私鑰可以簽署交易，就像在現實生活中需要簽名才能夠轉帳一樣，簽署過後的交易才能夠對你的帳戶資產進行更改。所以雖然在區塊鏈中大家都可以產生一筆交易更動你的資產，但是只有擁有私鑰的人才能夠簽署這筆交易，交易才能被認可和被驗證。</p>
+<blockquote>
+<p>在現實世界中可以捏造一個假的簽名，完成交易，但是在區塊鏈的世界中，因為它底層的密碼學特性，這件事情是不可能發生的，目前沒有一個人可以在沒有私鑰的情況下簽署交易。</p>
+</blockquote>
+<blockquote>
+<p>Not Your Keys, Not Your Coins</p>
+</blockquote>
+<p>這也是上面這句格言的由來，如果有人<strong>知道</strong>你的私鑰，那麼他就<strong>擁有</strong>你所有的資產了，許多駭客就是透過釣魚信件和瀏覽器快取在你沒發現的情況下竊取你的私鑰，進而盜走你的資產。</p>
+<h2 id="公鑰-public-key">公鑰 Public Key</h2>
+
+在介紹公鑰之前須要先說明一下甚麼是<b>單向函數（One-way function）</b>，單向函數指的是輸入一個 input 到函數 \(\ f(x)\) ，會很容易地得到 output，但是只給定 output 卻很難反向計算出 input。舉個例子，我們假設 \(p\), \(q\) 為質數，並且是非常大的數，對於 \(\ n = p*q\) ，給定一個 \(p\) 和 \(q\) 可以很容易得到 \(n\) ，但給定一個 \(n\) 卻很難得出 \(p\) 和 \(q\) 。
+
+<blockquote>
+<p>注意：單向函數很難反向計算，但我們沒辦法證明它真的很難計算，我們只能說目前沒有人可以反向計算出來而已，不能保證明天還是沒有人計算出來，因此「單向函數真的存在嗎？」是一個目前為止都沒有辦法回答的問題。</p>
+</blockquote>
+<figure><a href="https://computersciencewiki.org/index.php/One-way_function"><img src="https://miro.medium.com/max/750/1*upDx16KnvrMrGQBmzJ1SjA.png"/></a><figcaption>
+            <h4>One way function</h4>
+        </figcaption>
+</figure>
+
+<p>在 Ethereum 中，私鑰是用來將訊息<strong>簽名</strong>的，而公鑰是用來<strong>驗證簽名</strong>的，所有人都可以獲取你的公鑰以驗證簽名。Ethereum 的<strong>公鑰</strong>是由<strong>私鑰</strong>經過<strong>橢圓曲線演算法</strong> <a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm"><strong>ECDSA</strong></a><strong>(Elliptic Curve Digital Signature Algorithm)</strong>  算出來的，得出的結果長度為 512 bits，其演算法使用橢圓曲線（Elliptic curve）這個<strong>單向函數</strong>。因此透過私鑰轉換成公鑰非常容易，但是要透過公鑰轉換成私鑰是一件非常困難的事，這也恰恰符合前面所說的私鑰不能隨意洩露。</p>
+<blockquote>
+<p>ECDSA 背後牽涉到很多艱深的數學，因此本篇文章不會討論他的原理，未來會另外寫一篇有關 ECDSA 的文章加以探討。</p>
+</blockquote>
+<h2 id="地址-address">地址 Address</h2>
+<p>地址就像銀行帳號，是 Ethereum 中用來代表一個帳戶的方式，任何交易都是由一個地址發起的，而根據 Ethereum 黃皮書中對於地址的定義如下：</p>
+<blockquote>
+<p>For a given private key, the Ethereum address A is defined as the rightmost 160-bits of the Keccak hash of the corresponding ECDSA public key.</p>
+</blockquote>
+<p>Ethereum 的地址是由公鑰生成的，先將公鑰代入 Keccak hash function 中，這個函數是一個單向函數，其 output 長度為 256 bits，Ethereum 取最右邊的 160 bits 作為帳戶地址。</p>
+<p>然而你可能會問為何需要地址呢？其實在 Bitcoin 的白皮書裡是沒有地址這個概念的，是後來 Ethereum 為了讓帳戶位址更容易記住才有地址這個概念的。（壓縮過後的公鑰為 256 bits vs. 地址 160 bits）</p>
+<h3 id="地址有可能重複嗎">地址有可能重複嗎？</h3>
+
+答案是有的，但是機率非常小，小到幾乎不可能，Ethereum 地址長度為 160 bits，代表有 \(2^{160}\) 種可能，根據<a href="https://zh.wikipedia.org/zh-tw/%E7%94%9F%E6%97%A5%E5%95%8F%E9%A1%8C">生日問題</a>，當有 \(2^{80}\) 個不同的地址被創造出來時，地址重複的機率會上升到 50%。然而要產生 \(2^{80}\) 個不同的地址，需要地球上的每一個人每秒都能夠產生一個新的地址，持續產生八百萬年才有可能。
+
+<h2 id="conclusion">Conclusion</h2>
+<p>上面我們講述了私鑰、公鑰以及地址是如何產生的，以及個別的功用是甚麼，下圖簡單的總結了從私鑰變成地址的過程。雖然省略了中間的數學過程，但是希望大家看完本文能夠對於區塊鏈的奧妙更加了解。</p>
+<p><img src="https://miro.medium.com/max/875/1*1RkWbm58snAEi325ltzbDA.png" alt=""></p>
+<p><a href="https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f">https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f</a></p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://medium.com/portis/part-one-understanding-private-keys-311389737fbe">Part One: Understanding Private Keys</a></li>
+<li><a href="https://medium.com/portis/part-two-turning-random-numbers-into-an-ethereum-address-3928f56b225c">Part Two: Turning Random Numbers into an Ethereum Address</a></li>
+<li><a href="http://gavwood.com/paper.pdf">Ethereum Yellow Paper</a></li>
+<li><a href="https://www.cs.utexas.edu/users/moore/acl2/manuals/current/manual/index-seo.php/ECURVE____SECP256K1-DOMAIN-PARAMETERS#:~:text=Domain%20parameters%20of%20the%20secp256k1,the%20curve%2C%20as%20nullary%20functions.">Secp256k1-domain-parameters</a></li>
+<li><a href="https://ethereum.stackexchange.com/questions/33171/ethereum-address-vs-public-key">Ethereum Address vs Public Key</a></li>
+<li><a href="https://ethereum.stackexchange.com/questions/4299/account-uniqueness-guaranteed">Account uniqueness guaranteed?</a></li>
+</ul>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="//localhost:1313/tags/blockchain"
+      >blockchain</a
+    >
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="//localhost:1313/tags/ethereum"
+      >Ethereum</a
+    >
+     
+    <a
+      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
+      href="//localhost:1313/tags/address"
+      >address</a
+    >
+    
+  </footer>
+  
+
+  
+  
+  
+
+  
+  
+
+  
+  
+</article>
+
+
+  </main>
+
+  <footer
+  class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="//localhost:1313/">Ken&#39;s Blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >▷ Paper 6</a
+  >
+</footer>
+
+</body>
+
+</html>

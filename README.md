@@ -2,7 +2,7 @@
 A personal blog build with Hugo and integrate with Fleek.
 # Add post
 ```
-hugo new posts/<post-name>.md
+hugo new post/<post-name>.md
 ```
 # Test
 ```
