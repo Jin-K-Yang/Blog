@@ -4,9 +4,9 @@ author: Ken
 date: 2023-02-19T19:35:41Z
 draft: false
 tags: [
-    "blockchain",
+    "Blockchain",
     "Ethereum",
-    "address",
+    "Address",
 ]
 math: true
 coverImage: "https://miro.medium.com/max/875/0*n4rSGgp77ube9Y6Y"
@@ -20,7 +20,6 @@ coverImage: "https://miro.medium.com/max/875/0*n4rSGgp77ube9Y6Y"
 在區塊鏈的世界中，我們時常會用到私鑰簽署交易，但我們真的理解私鑰的意義嗎？而公鑰又是甚麼？和地址又有甚麼區別呢？然而每條區塊鏈所用的 加密方式都不盡相同，本文將會以 Ethereum 為例深入探討這些看似簡單卻又複雜的問題。
 
 ![](https://miro.medium.com/max/875/0*n4rSGgp77ube9Y6Y)
-
 <center>Photo by  <a href="https://unsplash.com/@jasondeblooisphotography?utm_source=medium&utm_medium=referral">Jason D</a> on <a href="https://unsplash.com/?utm_source=medium&utm_medium=referral">Unsplash</a></center>
 
 ## 私鑰 Private Key
@@ -57,7 +56,9 @@ coverImage: "https://miro.medium.com/max/875/0*n4rSGgp77ube9Y6Y"
 > 注意：單向函數很難反向計算，但我們沒辦法證明它真的很難計算，我們只能說目前沒有人可以反向計算出來而已，不能保證明天還是沒有人計算出來，因此「單向函數真的存在嗎？」是一個目前為止都沒有辦法回答的問題。
 
 
-<center>{{< figure src="https://miro.medium.com/max/750/1*upDx16KnvrMrGQBmzJ1SjA.png" link="https://computersciencewiki.org/index.php/One-way_function" title="One way function" >}}</center>
+<center>
+{{< figure src="https://miro.medium.com/max/750/1*upDx16KnvrMrGQBmzJ1SjA.png" attr="One way function" attrlink="https://computersciencewiki.org/index.php/One-way_function" >}}
+</center>
 
 在 Ethereum 中，私鑰是用來將訊息**簽名**的，而公鑰是用來**驗證簽名**的，所有人都可以獲取你的公鑰以驗證簽名。Ethereum 的**公鑰**是由**私鑰**經過**橢圓曲線演算法** [**ECDSA**](https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm)**(Elliptic Curve Digital Signature Algorithm)**  算出來的，得出的結果長度為 512 bits，其演算法使用橢圓曲線（Elliptic curve）這個**單向函數**。因此透過私鑰轉換成公鑰非常容易，但是要透過公鑰轉換成私鑰是一件非常困難的事，這也恰恰符合前面所說的私鑰不能隨意洩露。
 
@@ -83,9 +84,9 @@ Ethereum 的地址是由公鑰生成的，先將公鑰代入 Keccak hash functio
 
 上面我們講述了私鑰、公鑰以及地址是如何產生的，以及個別的功用是甚麼，下圖簡單的總結了從私鑰變成地址的過程。雖然省略了中間的數學過程，但是希望大家看完本文能夠對於區塊鏈的奧妙更加了解。
 
-![](https://miro.medium.com/max/875/1*1RkWbm58snAEi325ltzbDA.png)
-
-[https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f](https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f)
+<center>
+{{< figure src="https://miro.medium.com/max/875/1*1RkWbm58snAEi325ltzbDA.png" attr="https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f" attrlink="https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f" >}}
+</center>
 
 ## Reference
 

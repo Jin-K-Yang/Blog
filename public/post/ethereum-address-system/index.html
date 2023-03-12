@@ -130,7 +130,7 @@ Photo by Jason D on Unsplash 私鑰 Private Key 首先，我們先來探討甚�
 上面是引用 Ethereum 黃皮書對私鑰的介紹，其中 \(\ secp256k1n = 2^{256}\) 。私鑰其實就是一串隨機數，具體而言，以太坊的私鑰是一串隨機正整數，而這個值的區間位於 \(1\) ~ \(2^{256}\) 之間，也就是說，它是一串隨機生成的 256 bits 序列。這個 range 是非常巨大的，要生成兩個一樣的私鑰是一件幾乎不可能會發生的事。（如果你無法想像 \(2^{256}\) 實際到底有多大，可以觀看以下影片） 2²⁵⁶ 實際到底有多大？ 而私鑰為甚麼會如此重要呢？ 在真實的世界中，「擁有」的定義是領有、具有，得到或者保持著某種東西，你可以透過出示地契證明你擁有某一棟房子。但在區塊鏈的世界中，擁有某個東西只不過是在帳本上將你的資產做加法，並且用數學的方式證明它的存在，當全世界的人都認可這個紀錄，那麼你就擁有它，儘管你其實並沒有實際擁有任何東西。簡單來講，當你知道你的私鑰的時候，你就擁有你所有的貨幣資產，包括 NFT 和 Token，因為多數人都能夠證明這條紀錄是千真萬確的。"><meta itemprop="datePublished" content="2023-02-19T19:35:41+00:00" />
 <meta itemprop="dateModified" content="2023-02-19T19:35:41+00:00" />
 <meta itemprop="wordCount" content="240">
-<meta itemprop="keywords" content="blockchain,Ethereum,address," />
+<meta itemprop="keywords" content="Blockchain,Ethereum,Address," />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="公鑰、私鑰、地址傻傻分不清！？"/>
@@ -299,10 +299,13 @@ Photo by Jason D on Unsplash 私鑰 Private Key 首先，我們先來探討甚�
 <blockquote>
 <p>注意：單向函數很難反向計算，但我們沒辦法證明它真的很難計算，我們只能說目前沒有人可以反向計算出來而已，不能保證明天還是沒有人計算出來，因此「單向函數真的存在嗎？」是一個目前為止都沒有辦法回答的問題。</p>
 </blockquote>
-<center><figure><a href="https://computersciencewiki.org/index.php/One-way_function"><img src="https://miro.medium.com/max/750/1*upDx16KnvrMrGQBmzJ1SjA.png"/></a><figcaption>
-            <h4>One way function</h4>
+<center>
+<figure><img src="https://miro.medium.com/max/750/1*upDx16KnvrMrGQBmzJ1SjA.png"/><figcaption>
+            <p>
+                    <a href="https://computersciencewiki.org/index.php/One-way_function">One way function</a></p>
         </figcaption>
 </figure>
+
 </center>
 <p>在 Ethereum 中，私鑰是用來將訊息<strong>簽名</strong>的，而公鑰是用來<strong>驗證簽名</strong>的，所有人都可以獲取你的公鑰以驗證簽名。Ethereum 的<strong>公鑰</strong>是由<strong>私鑰</strong>經過<strong>橢圓曲線演算法</strong> <a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm"><strong>ECDSA</strong></a><strong>(Elliptic Curve Digital Signature Algorithm)</strong>  算出來的，得出的結果長度為 512 bits，其演算法使用橢圓曲線（Elliptic curve）這個<strong>單向函數</strong>。因此透過私鑰轉換成公鑰非常容易，但是要透過公鑰轉換成私鑰是一件非常困難的事，這也恰恰符合前面所說的私鑰不能隨意洩露。</p>
 <blockquote>
@@ -321,8 +324,14 @@ Photo by Jason D on Unsplash 私鑰 Private Key 首先，我們先來探討甚�
 
 <h2 id="conclusion">Conclusion</h2>
 <p>上面我們講述了私鑰、公鑰以及地址是如何產生的，以及個別的功用是甚麼，下圖簡單的總結了從私鑰變成地址的過程。雖然省略了中間的數學過程，但是希望大家看完本文能夠對於區塊鏈的奧妙更加了解。</p>
-<p><img src="https://miro.medium.com/max/875/1*1RkWbm58snAEi325ltzbDA.png" alt=""></p>
-<p><a href="https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f">https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f</a></p>
+<center>
+<figure><img src="https://miro.medium.com/max/875/1*1RkWbm58snAEi325ltzbDA.png"/><figcaption>
+            <p>
+                    <a href="https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f"><a href="https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f">https://medium.com/@codetractio/inside-an-ethereum-transaction-fa94ffca912f</a></a></p>
+        </figcaption>
+</figure>
+
+</center>
 <h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://medium.com/portis/part-one-understanding-private-keys-311389737fbe">Part One: Understanding Private Keys</a></li>
@@ -338,17 +347,25 @@ Photo by Jason D on Unsplash 私鑰 Private Key 首先，我們先來探討甚�
   
   <footer class="mt-12 flex flex-wrap">
      
-    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="/tags/blockchain">blockchain</a>
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="/tags/blockchain">Blockchain</a>
      
     <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="/tags/ethereum">Ethereum</a>
      
-    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="/tags/address">address</a>
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="/tags/address">Address</a>
     
   </footer>
   
 
   
   
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    <a class="flex w-1/2 items-center rounded-l-md p-6 pr-3 no-underline hover:bg-black/[2%]"
+      href="/post/flash-loan-1/"><span class="mr-1.5">←</span><span>無須抵押品就可以貸款？利用 Aave 實作閃電貸智能合約（上）</span></a>
+    
+    
+  </nav>
   
 
   
