@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="not-ready text-sm lg:text-base" style="--bg: #f1efe1"
+  lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>無須抵押品就可以貸款？利用 Aave 實作閃電貸智能合約（下） - Ken&#39;s Blog</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="上一篇我們介紹了甚麼是閃電貸，並且介紹了閃電貸的使用場景，這篇我們將介紹閃電貸的合約是如何實現的，並且用 Aave 實作出來。
+Photo by Jason D on Unsplash 閃電貸流程 首先，我們先來看看 Aave 閃電貸的流程是甚麼
+對你的合約發起一個交易，你的合約會呼叫 Aave pool 合約裡面的 FlashLoanSimple() 並指定這次閃電貸要借的 token 數量。 Aave pool 合約執行 FlashLoanSimple() 轉移要借出的 token 到你的合約，並且執行你的合約中的 executeOperation()。 現在你的合約中擁有從 Aave 借來的貸款，並且可以做你想做的任何事情，等到 executeOperation() 執行成功後，Aave pool 合約會從你的合約中把應該要還的錢加上費用一同償還給 Aave。 以上所有事情都發生在同一個 transaction 中，因此也會在同一個 block。 Aave 閃電貸合約簡介 接下來我們透過程式碼來實際看看 Aave 的 FlashLoanSimple() 流程，以下只會列出跟閃電貸有關的程式碼，有興趣的讀者可以到他們的 GitHub 觀看完整的程式碼。
+以下是 FlashLoanSimple() 的完整程式碼，可以看到最下面一行的 executeFlashLoanSimple() 才是真正在執行閃電貸的程式碼。 // Pool.sol function flashLoanSimple( address receiverAddress, address asset, uint256 amount, bytes calldata params, uint16 referralCode ) public virtual override { DataTypes." />
+  <meta
+    name="author"
+    content="Ken"
+  />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="/main.min.css" />
+
+  
+  <script
+    defer
+    src="/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="/theme.png" />
+
+  
+  
+  
+  <link rel="preload" as="image" href="https://dl.openseauserdata.com/cache/originImage/files/879e5615088fc034a8152466afb53a34.png" />
+  
+  
+
+  
+  <link rel="preload" as="image" href="/twitter.svg" />
+  
+  <link rel="preload" as="image" href="/github.svg" />
+  
+  <link rel="preload" as="image" href="/instagram.svg" />
+  
+
+  
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.110.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="無須抵押品就可以貸款？利用 Aave 實作閃電貸智能合約（下）" />
+<meta property="og:description" content="上一篇我們介紹了甚麼是閃電貸，並且介紹了閃電貸的使用場景，這篇我們將介紹閃電貸的合約是如何實現的，並且用 Aave 實作出來。
+Photo by Jason D on Unsplash 閃電貸流程 首先，我們先來看看 Aave 閃電貸的流程是甚麼
+對你的合約發起一個交易，你的合約會呼叫 Aave pool 合約裡面的 FlashLoanSimple() 並指定這次閃電貸要借的 token 數量。 Aave pool 合約執行 FlashLoanSimple() 轉移要借出的 token 到你的合約，並且執行你的合約中的 executeOperation()。 現在你的合約中擁有從 Aave 借來的貸款，並且可以做你想做的任何事情，等到 executeOperation() 執行成功後，Aave pool 合約會從你的合約中把應該要還的錢加上費用一同償還給 Aave。 以上所有事情都發生在同一個 transaction 中，因此也會在同一個 block。 Aave 閃電貸合約簡介 接下來我們透過程式碼來實際看看 Aave 的 FlashLoanSimple() 流程，以下只會列出跟閃電貸有關的程式碼，有興趣的讀者可以到他們的 GitHub 觀看完整的程式碼。
+以下是 FlashLoanSimple() 的完整程式碼，可以看到最下面一行的 executeFlashLoanSimple() 才是真正在執行閃電貸的程式碼。 // Pool.sol function flashLoanSimple( address receiverAddress, address asset, uint256 amount, bytes calldata params, uint16 referralCode ) public virtual override { DataTypes." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/flash-laon-2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-04-14T07:54:06+00:00" />
+<meta property="article:modified_time" content="2023-04-14T07:54:06+00:00" />
+
+  
+  <meta itemprop="name" content="無須抵押品就可以貸款？利用 Aave 實作閃電貸智能合約（下）">
+<meta itemprop="description" content="上一篇我們介紹了甚麼是閃電貸，並且介紹了閃電貸的使用場景，這篇我們將介紹閃電貸的合約是如何實現的，並且用 Aave 實作出來。
+Photo by Jason D on Unsplash 閃電貸流程 首先，我們先來看看 Aave 閃電貸的流程是甚麼
+對你的合約發起一個交易，你的合約會呼叫 Aave pool 合約裡面的 FlashLoanSimple() 並指定這次閃電貸要借的 token 數量。 Aave pool 合約執行 FlashLoanSimple() 轉移要借出的 token 到你的合約，並且執行你的合約中的 executeOperation()。 現在你的合約中擁有從 Aave 借來的貸款，並且可以做你想做的任何事情，等到 executeOperation() 執行成功後，Aave pool 合約會從你的合約中把應該要還的錢加上費用一同償還給 Aave。 以上所有事情都發生在同一個 transaction 中，因此也會在同一個 block。 Aave 閃電貸合約簡介 接下來我們透過程式碼來實際看看 Aave 的 FlashLoanSimple() 流程，以下只會列出跟閃電貸有關的程式碼，有興趣的讀者可以到他們的 GitHub 觀看完整的程式碼。
+以下是 FlashLoanSimple() 的完整程式碼，可以看到最下面一行的 executeFlashLoanSimple() 才是真正在執行閃電貸的程式碼。 // Pool.sol function flashLoanSimple( address receiverAddress, address asset, uint256 amount, bytes calldata params, uint16 referralCode ) public virtual override { DataTypes."><meta itemprop="datePublished" content="2023-04-14T07:54:06+00:00" />
+<meta itemprop="dateModified" content="2023-04-14T07:54:06+00:00" />
+<meta itemprop="wordCount" content="373">
+<meta itemprop="keywords" content="Blockchain,Ethereum,Defi,Security,Coding," />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="無須抵押品就可以貸款？利用 Aave 實作閃電貸智能合約（下）"/>
+<meta name="twitter:description" content="上一篇我們介紹了甚麼是閃電貸，並且介紹了閃電貸的使用場景，這篇我們將介紹閃電貸的合約是如何實現的，並且用 Aave 實作出來。
+Photo by Jason D on Unsplash 閃電貸流程 首先，我們先來看看 Aave 閃電貸的流程是甚麼
+對你的合約發起一個交易，你的合約會呼叫 Aave pool 合約裡面的 FlashLoanSimple() 並指定這次閃電貸要借的 token 數量。 Aave pool 合約執行 FlashLoanSimple() 轉移要借出的 token 到你的合約，並且執行你的合約中的 executeOperation()。 現在你的合約中擁有從 Aave 借來的貸款，並且可以做你想做的任何事情，等到 executeOperation() 執行成功後，Aave pool 合約會從你的合約中把應該要還的錢加上費用一同償還給 Aave。 以上所有事情都發生在同一個 transaction 中，因此也會在同一個 block。 Aave 閃電貸合約簡介 接下來我們透過程式碼來實際看看 Aave 的 FlashLoanSimple() 流程，以下只會列出跟閃電貸有關的程式碼，有興趣的讀者可以到他們的 GitHub 觀看完整的程式碼。
+以下是 FlashLoanSimple() 的完整程式碼，可以看到最下面一行的 executeFlashLoanSimple() 才是真正在執行閃電貸的程式碼。 // Pool.sol function flashLoanSimple( address receiverAddress, address asset, uint256 amount, bytes calldata params, uint16 referralCode ) public virtual override { DataTypes."/>
+
+  
+  
+</head>
+
+
+<body class="text-black duration-200 ease-out dark:text-white">
+  <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold" href="/">Ken&#39;s Blog</a>
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#f1efe1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none">
+    
+    
+    <nav class="lg:ml-12 lg:flex lg:flex-row lg:items-center lg:space-x-6">
+      
+      <a class="block text-center text-2xl leading-[5rem] lg:text-base lg:font-normal" href="/about/">About</a>
+      
+    </nav>
+    
+
+    
+    <nav class="mt-12 flex justify-center space-x-10 dark:invert lg:mt-0 lg:ml-12 lg:items-center lg:space-x-6">
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./twitter.svg)"
+        href="https://twitter.com/kkken_eth"
+        target="_blank" rel="me" ></a>
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./github.svg)"
+        href="https://github.com/Jin-K-Yang"
+        target="_blank" rel="me" ></a>
+      
+      <a class="h-8 w-8 [background:var(--url)_center_center/cover_no-repeat] lg:h-6 lg:w-6"
+        style="--url: url(./instagram.svg)"
+        href="https://instagram.com/jinkai0809"
+        target="_blank" rel="me" ></a>
+      
+    </nav>
+    
+  </div>
+</header>
+
+  <main
+    class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert">
+    
+
+<article>
+  <header class="mb-20">
+    <h1 class="!my-0 pb-2.5">無須抵押品就可以貸款？利用 Aave 實作閃電貸智能合約（下）</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      <time>Apr 14, 2023</time>
+      
+      
+      <span class="mx-1">&middot;</span>
+      <span>Ken</span>
+      
+    </div>
+    
+  </header>
+
+  <section><p>上一篇我們介紹了甚麼是閃電貸，並且介紹了閃電貸的使用場景，這篇我們將介紹閃電貸的合約是如何實現的，並且用 Aave 實作出來。</p>
+<p><img src="https://images.unsplash.com/photo-1521897258701-21e2a01f5e8b?ixlib=rb-4.0.3&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=3600" alt="https://images.unsplash.com/photo-1521897258701-21e2a01f5e8b?ixlib=rb-4.0.3&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=3600"></p>
+<center>Photo by  <a href="https://unsplash.com/@jasondeblooisphotography?utm_source=medium&utm_medium=referral">Jason D</a> on <a href="https://unsplash.com/?utm_source=medium&utm_medium=referral">Unsplash</a></center>
+<h2 id="閃電貸流程">閃電貸流程</h2>
+<p>首先，我們先來看看 Aave 閃電貸的流程是甚麼</p>
+<p><img src="https://i.imgur.com/trz4qzn.png" alt="https://i.imgur.com/trz4qzn.png"></p>
+<ol>
+<li>對你的合約發起一個交易，你的合約會呼叫 Aave pool 合約裡面的 <code>FlashLoanSimple()</code> 並指定這次閃電貸要借的 token 數量。</li>
+<li>Aave pool 合約執行 <code>FlashLoanSimple()</code> 轉移要借出的 token 到你的合約，並且執行你的合約中的 <code>executeOperation()</code>。</li>
+<li>現在你的合約中擁有從 Aave 借來的貸款，並且可以做你想做的任何事情，等到 <code>executeOperation()</code> 執行成功後，Aave pool 合約會從你的合約中把應該要還的錢加上費用一同償還給 Aave。</li>
+<li>以上所有事情都發生在同一個 transaction 中，因此也會在同一個 block。</li>
+</ol>
+<h2 id="aave-閃電貸合約簡介">Aave 閃電貸合約簡介</h2>
+<p>接下來我們透過程式碼來實際看看 Aave 的 <code>FlashLoanSimple()</code> 流程，以下只會列出跟閃電貸有關的程式碼，有興趣的讀者可以到他們的 <a href="https://github.com/aave/aave-v3-core">GitHub</a> 觀看完整的程式碼。</p>
+<ul>
+<li>以下是 <a href="https://github.com/aave/aave-v3-core/blob/master/contracts/protocol/pool/Pool.sol#L427"><code>FlashLoanSimple()</code></a> 的完整程式碼，可以看到最下面一行的 <code>executeFlashLoanSimple()</code> 才是真正在執行閃電貸的程式碼。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">// Pool.sol
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">flashLoanSimple</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">address</span> receiverAddress,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">address</span> asset,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint256</span> amount,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">bytes</span> calldata params,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint16</span> referralCode
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">override</span> {
+</span></span><span style="display:flex;"><span>  DataTypes.FlashloanSimpleParams <span style="color:#66d9ef">memory</span> flashParams <span style="color:#f92672">=</span> DataTypes.FlashloanSimpleParams({
+</span></span><span style="display:flex;"><span>    receiverAddress<span style="color:#f92672">:</span> receiverAddress,
+</span></span><span style="display:flex;"><span>    asset<span style="color:#f92672">:</span> asset,
+</span></span><span style="display:flex;"><span>    amount<span style="color:#f92672">:</span> amount,
+</span></span><span style="display:flex;"><span>    params<span style="color:#f92672">:</span> params,
+</span></span><span style="display:flex;"><span>    referralCode<span style="color:#f92672">:</span> referralCode,
+</span></span><span style="display:flex;"><span>    flashLoanPremiumToProtocol<span style="color:#f92672">:</span> _flashLoanPremiumToProtocol,
+</span></span><span style="display:flex;"><span>    flashLoanPremiumTotal<span style="color:#f92672">:</span> _flashLoanPremiumTotal
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>  FlashLoanLogic.executeFlashLoanSimple(_reserves[asset], flashParams);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>接著我們繼續追蹤 <a href="https://github.com/aave/aave-v3-core/blob/master/contracts/protocol/libraries/logic/FlashLoanLogic.sol#L179"><code>executeFlashLoanSimple()</code></a> 看看他在做甚麼，以下程式 碼只節錄重要部分，可以看到在 <code>require()</code> 裡面的第一個參數是 <code>receiver.executeOperation()</code>，<code>receiver</code> 就是你的合約，他會執行你合約中的 <code>executeOperation()</code>，如果回傳的是 <code>true</code>，代表你的合約已經透過閃電貸做完你想做的事情，接下來會需要償還貸款，那就是 <code>_handleFlashLoanRepayment()</code> 所處理的。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">// FlashLoanLogic.sol
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">executeFlashLoanSimple</span>(
+</span></span><span style="display:flex;"><span>  DataTypes.ReserveData <span style="color:#66d9ef">storage</span> reserve,
+</span></span><span style="display:flex;"><span>  DataTypes.FlashloanSimpleParams <span style="color:#66d9ef">memory</span> params
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">external</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  require(
+</span></span><span style="display:flex;"><span>    receiver.executeOperation(
+</span></span><span style="display:flex;"><span>      params.asset,
+</span></span><span style="display:flex;"><span>      params.amount,
+</span></span><span style="display:flex;"><span>      totalPremium,
+</span></span><span style="display:flex;"><span>      msg.sender,
+</span></span><span style="display:flex;"><span>      params.params
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    Errors.INVALID_FLASHLOAN_EXECUTOR_RETURN
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  _handleFlashLoanRepayment(
+</span></span><span style="display:flex;"><span>    reserve,
+</span></span><span style="display:flex;"><span>    DataTypes.FlashLoanRepaymentParams({
+</span></span><span style="display:flex;"><span>      asset<span style="color:#f92672">:</span> params.asset,
+</span></span><span style="display:flex;"><span>      receiverAddress<span style="color:#f92672">:</span> params.receiverAddress,
+</span></span><span style="display:flex;"><span>      amount<span style="color:#f92672">:</span> params.amount,
+</span></span><span style="display:flex;"><span>      totalPremium<span style="color:#f92672">:</span> totalPremium,
+</span></span><span style="display:flex;"><span>      flashLoanPremiumToProtocol<span style="color:#f92672">:</span> params.flashLoanPremiumToProtocol,
+</span></span><span style="display:flex;"><span>      referralCode<span style="color:#f92672">:</span> params.referralCode
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>在 <a href="https://github.com/aave/aave-v3-core/blob/master/contracts/protocol/libraries/logic/FlashLoanLogic.sol#L223"><code>_handleFlashLoanRepayment()</code></a> 中，我們一樣只看最重要的部分，Aave 會從你的合約中將一開始借出的 token 數量，加上使用閃電貸的服務費用，一次轉回來。在這個步驟中，如果你的合約 token 餘額不足，或是 allowance 給的不夠，交易就會被 revert。到這邊整個閃電貸才算是完成。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">// FlashLoanLogic.sol
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">_handleFlashLoanRepayment</span>(
+</span></span><span style="display:flex;"><span>  DataTypes.ReserveData <span style="color:#66d9ef">storage</span> reserve,
+</span></span><span style="display:flex;"><span>  DataTypes.FlashLoanRepaymentParams <span style="color:#66d9ef">memory</span> params
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">internal</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  IERC20(params.asset).safeTransferFrom(
+</span></span><span style="display:flex;"><span>    params.receiverAddress,
+</span></span><span style="display:flex;"><span>    reserveCache.aTokenAddress,
+</span></span><span style="display:flex;"><span>    amountPlusPremium
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><h2 id="合約實作">合約實作</h2>
+<p>知道了閃電貸的流程以及 Aave 合約中是如何實作的之後，我們就要開始寫一個自己的合約來呼叫 Aave 的閃電貸 function。</p>
+<ul>
+<li>首先，我們要先將會用到的 Aave 合約下載下來。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm i @aave/core-v3
+</span></span></code></pre></div><ul>
+<li>接著引入會使用到的合約並且繼承 <code>FlashLoanSimpleReceiverBase</code>。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#75715e">// FlashLoan.sol
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// SPDX-License-Identifier: MIT
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">pragma solidity</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">8</span>.<span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> {FlashLoanSimpleReceiverBase} <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aave/core-v3/contracts/flashloan/base/FlashLoanSimpleReceiverBase.sol&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> {IPoolAddressesProvider} <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aave/core-v3/contracts/interfaces/IPoolAddressesProvider.sol&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> {IERC20} <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aave/core-v3/contracts/dependencies/openzeppelin/contracts/IERC20.sol&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">contract</span> <span style="color:#a6e22e">FlashLoan</span> <span style="color:#66d9ef">is</span> FlashLoanSimpleReceiverBase {}
+</span></span></code></pre></div><ul>
+<li>實作 <code>constrctor()</code>，這邊需要 <code>_addressProvider</code> 作為 input 是因為 Aave 的借貸池子是可變動的，所以為了要拿到現在可以借貸的池子，Aave 提供了 PoolAddressesProvider 可供查詢，這個參數就是那個合約的地址，可以從 Aave 的 <a href="https://docs.aave.com/developers/deployed-contracts/v3-mainnet/ethereum-mainnet">Doc</a> 查到。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#66d9ef">constructor</span>(<span style="color:#66d9ef">address</span> _addressProvider) FlashLoanSimpleReceiverBase(IPoolAddressesProvider(_addressProvider)) {
+</span></span><span style="display:flex;"><span>  owner <span style="color:#f92672">=</span> <span style="color:#66d9ef">payable</span>(msg.sender);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>實作 <code>executeOperation()</code> 給 Aave 合約呼叫。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">executeOperation</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">address</span> asset,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint256</span> amount,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint256</span> premium,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">address</span> initiator,
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">bytes</span> calldata params
+</span></span><span style="display:flex;"><span>) <span style="color:#66d9ef">external</span> <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">returns</span> (<span style="color:#66d9ef">bool</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Logic you want to implement goes here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Approve the Pool contract allowance to *pull* the owed amount
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">uint256</span> amountOwed <span style="color:#f92672">=</span> amount <span style="color:#f92672">+</span> premium;
+</span></span><span style="display:flex;"><span>  IERC20(asset).approve(<span style="color:#66d9ef">address</span>(POOL), amountOwed);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>實作 <code>requestFlashLoan()</code> 給 EOA 呼叫，並且呼叫 Aave 的閃電貸 function。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">requestFlashLoan</span>(<span style="color:#66d9ef">address</span> _token, <span style="color:#66d9ef">uint256</span> _amount) <span style="color:#66d9ef">public</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">address</span> reciverAddress <span style="color:#f92672">=</span> <span style="color:#66d9ef">address</span>(this);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">address</span> asset <span style="color:#f92672">=</span> _token;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint256</span> amount <span style="color:#f92672">=</span> _amount;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">bytes</span> <span style="color:#66d9ef">memory</span> params <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">uint16</span> referralCode <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  POOL.flashLoanSimple(reciverAddress, asset, amount, params, referralCode);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>別忘了加上 <code>withdraw()</code>，否則在合約裡面的錢是拿不出來的。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-solidity" data-lang="solidity"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">withdraw</span>(<span style="color:#66d9ef">address</span> _tokenAddress) <span style="color:#66d9ef">external</span> onlyOwner {
+</span></span><span style="display:flex;"><span>  IERC20 token <span style="color:#f92672">=</span> IERC20(_tokenAddress);
+</span></span><span style="display:flex;"><span>  token.transfer(msg.sender, token.balanceOf(<span style="color:#66d9ef">address</span>(this)));
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>以上就是利用 Aave 實作閃電貸合約的所有細節，有興趣的讀者可以到<a href="https://github.com/Jin-K-Yang/Flash-loan">這裡</a>查看完整的 repo。</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>經過之前的介紹，我們已經對閃電貸有了初步的認識，在這篇文章中我們更深入地了解了閃電貸的合約實現方式以及使用 Aave 實作的例子。希望大家能夠注意任何有可能利用閃電貸所引發的漏洞，同時也能善用區塊鏈的特性，利用閃電貸激盪出與傳統金融截然不同的點子。</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://docs.aave.com/developers/v/2.0/guides/flash-loans">Aave Flash Loans Docs</a></li>
+</ul>
+</section>
+
+  
+  
+  <footer class="mt-12 flex flex-wrap">
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="/tags/blockchain">Blockchain</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="/tags/ethereum">Ethereum</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="/tags/defi">Defi</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="/tags/security">Security</a>
+     
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="/tags/coding">Coding</a>
+    
+  </footer>
+  
+
+  
+  
+  
+  <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
+    
+    
+    <a class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 no-underline hover:bg-black/[2%]"
+      href="/post/flash-loan-1/"><span>無須抵押品就可以貸款？利用 Aave 實作閃電貸智能合約（上）</span><span class="ml-1.5">→</span></a>
+    
+  </nav>
+  
+
+  
+  
+
+  
+  
+</article>
+
+
+  </main>
+
+  <footer
+  class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2023
+    <a class="link" href="/">Ken&#39;s Blog</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >▷ Paper 6</a
+  >
+</footer>
+
+</body>
+
+</html>

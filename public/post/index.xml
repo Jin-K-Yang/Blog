@@ -6,7 +6,19 @@
     <description>Recent content in Posts on Ken&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 12 Mar 2023 19:51:58 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 14 Apr 2023 07:54:06 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>無須抵押品就可以貸款？利用 Aave 實作閃電貸智能合約（下）</title>
+      <link>/post/flash-laon-2/</link>
+      <pubDate>Fri, 14 Apr 2023 07:54:06 +0000</pubDate>
+      
+      <guid>/post/flash-laon-2/</guid>
+      <description>上一篇我們介紹了甚麼是閃電貸，並且介紹了閃電貸的使用場景，這篇我們將介紹閃電貸的合約是如何實現的，並且用 Aave 實作出來。
+Photo by Jason D on Unsplash 閃電貸流程 首先，我們先來看看 Aave 閃電貸的流程是甚麼
+對你的合約發起一個交易，你的合約會呼叫 Aave pool 合約裡面的 FlashLoanSimple() 並指定這次閃電貸要借的 token 數量。 Aave pool 合約執行 FlashLoanSimple() 轉移要借出的 token 到你的合約，並且執行你的合約中的 executeOperation()。 現在你的合約中擁有從 Aave 借來的貸款，並且可以做你想做的任何事情，等到 executeOperation() 執行成功後，Aave pool 合約會從你的合約中把應該要還的錢加上費用一同償還給 Aave。 以上所有事情都發生在同一個 transaction 中，因此也會在同一個 block。 Aave 閃電貸合約簡介 接下來我們透過程式碼來實際看看 Aave 的 FlashLoanSimple() 流程，以下只會列出跟閃電貸有關的程式碼，有興趣的讀者可以到他們的 GitHub 觀看完整的程式碼。
+以下是 FlashLoanSimple() 的完整程式碼，可以看到最下面一行的 executeFlashLoanSimple() 才是真正在執行閃電貸的程式碼。 // Pool.sol function flashLoanSimple( address receiverAddress, address asset, uint256 amount, bytes calldata params, uint16 referralCode ) public virtual override { DataTypes.</description>
+    </item>
+    
     <item>
       <title>無須抵押品就可以貸款？利用 Aave 實作閃電貸智能合約（上）</title>
       <link>/post/flash-loan-1/</link>
