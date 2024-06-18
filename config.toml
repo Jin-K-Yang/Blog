@@ -38,7 +38,12 @@ title = "Ken's Blog"
     identifier = "about"
     name = "About"
     url = "/about/"
-    weight = 10
+    weight = 1
+  [[menu.main]]
+    identifier = "experience"
+    name = "Experience"
+    url = "/experience/"
+    weight = 2
 
 [taxonomies]
 category = "categories"

@@ -1,7 +1,7 @@
 ---
 title: "About"
 author: Ken
-date: 2023-02-19T19:35:41Z
+date: 2023-02-19
 draft: false
 ---
 
